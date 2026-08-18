@@ -63,7 +63,7 @@ a:hover { color: var(--gold); }
 .phone-screen .sheen { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(112deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.1) 16%, rgba(255,255,255,0) 34%, rgba(255,255,255,0) 100%); }
 
 /* features */
-.features { display: flex; flex-direction: column; align-items: center; padding: clamp(64px, 15vw, 120px) 20px; }
+.features { display: flex; flex-direction: column; align-items: center; padding: clamp(64px, 15vw, 120px) 20px; scroll-margin-top: 72px; }
 .features h2 { margin: 0 0 clamp(32px, 7vw, 56px); font-weight: 800; font-size: clamp(30px, 8vw, 44px); letter-spacing: -0.03em; text-align: center; }
 .grid { width: 100%; max-width: 1120px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 .card { display: flex; flex-direction: column; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px; transition: transform .25s, box-shadow .25s; }
