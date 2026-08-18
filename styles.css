@@ -97,13 +97,23 @@ a:hover { color: var(--gold); }
 
 /* article pages */
 .page { flex: 1; display: flex; justify-content: center; padding: clamp(48px, 11vw, 88px) 20px clamp(64px, 14vw, 104px); }
-.page article { width: 100%; max-width: 680px; }
+.page article { width: 100%; max-width: 680px; min-width: 0; }
 .page h1 { margin: 0; font-weight: 800; font-size: clamp(32px, 8.5vw, 52px); line-height: 1.05; letter-spacing: -0.035em; }
 .page .stamp { margin: 14px 0 0; font-size: 14px; color: var(--dim); }
 .page .lede { margin: 32px 0 0; font-size: 17px; line-height: 1.6; color: #3F3F46; text-wrap: pretty; }
 .page section { display: flex; flex-direction: column; gap: 10px; padding: 28px 0 0; }
 .page section h2 { margin: 0; font-weight: 800; font-size: 21px; letter-spacing: -0.02em; }
 .page section p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+.page section a { color: var(--gold); font-weight: 500; }
+.page section strong { color: var(--ink); font-weight: 800; }
+.page section ul { display: flex; flex-direction: column; gap: 10px; margin: 0; padding-left: 20px; }
+.page section li { font-size: 16px; line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+.page section li::marker { color: var(--dim); }
+.table-wrap { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 18px; }
+.table-wrap table { width: 100%; min-width: 460px; border-collapse: collapse; }
+.table-wrap th, .table-wrap td { padding: 14px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
+.table-wrap th { font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); white-space: nowrap; }
+.table-wrap tr:last-child td { border-bottom: 0; }
 .qa { display: flex; flex-direction: column; gap: 12px; padding: 36px 0 0; }
 .qa > div { display: flex; flex-direction: column; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
 .qa h2 { margin: 0; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
