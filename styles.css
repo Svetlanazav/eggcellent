@@ -43,11 +43,13 @@ a:hover { color: var(--gold); }
 .store-btn.soon .big { color: var(--ink); }
 .store-btn.soon svg { opacity: 0.5; }
 
-/* marquee */
-.marquee { overflow: hidden; padding: clamp(48px, 11vw, 88px) 0 clamp(8px, 2vw, 16px); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
-.marquee-track { display: flex; width: max-content; gap: 28px; padding: 0 14px; animation: marquee 46s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* marquee: drifts on its own, and can be dragged, swiped or wheeled by hand */
+.marquee { overflow-x: auto; overflow-y: hidden; padding: clamp(48px, 11vw, 88px) 0 clamp(8px, 2vw, 16px); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); overscroll-behavior-x: contain; scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
+.marquee::-webkit-scrollbar { display: none; }
+.marquee.is-dragging { cursor: grabbing; }
+.marquee-track { display: flex; width: max-content; gap: 28px; padding: 0 14px; }
+.marquee .phone { user-select: none; -webkit-user-select: none; }
+.marquee img { -webkit-user-drag: none; }
 
 /* iPhone frame */
 .phone { position: relative; flex: 0 0 auto; width: 202px; aspect-ratio: 1206 / 2622; }

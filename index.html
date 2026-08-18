@@ -196,5 +196,76 @@
     <p class="copy">&copy; 2026 Eggcellent</p>
   </div>
 </footer>
+<script>
+(function () {
+  var strip = document.querySelector('.marquee');
+  var track = strip && strip.querySelector('.marquee-track');
+  if (!strip || !track) return;
+
+  var SPEED = 30;          // px per second of idle drift
+  var RESUME_AFTER = 1400; // ms of stillness before the drift picks up again
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var dragging = false;
+  var lastPointerX = 0;
+  var touchedAt = -Infinity;
+  var prevFrame = 0;
+
+  // The strip holds the same screens twice, so one loop is half its scroll width.
+  // Keeping the offset inside that first half makes the scroll endless in both directions.
+  function normalize() {
+    var half = strip.scrollWidth / 2;
+    if (half < 1) return;
+    if (strip.scrollLeft >= half) strip.scrollLeft -= half;
+    else if (strip.scrollLeft < 1) strip.scrollLeft += half - 1;
+  }
+
+  function idle() { touchedAt = performance.now(); }
+
+  function frame(now) {
+    var dt = prevFrame ? Math.min(now - prevFrame, 100) : 0;
+    prevFrame = now;
+    if (!dragging && !reduced.matches && now - touchedAt > RESUME_AFTER) {
+      strip.scrollLeft += SPEED * dt / 1000;
+    }
+    normalize();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // Touch and trackpad scroll natively; only mouse and pen need drag-to-scroll.
+  strip.addEventListener('pointerdown', function (e) {
+    idle();
+    if (e.pointerType === 'touch' || e.button !== 0) return;
+    dragging = true;
+    lastPointerX = e.clientX;
+    strip.classList.add('is-dragging');
+    strip.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+
+  strip.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    strip.scrollLeft -= e.clientX - lastPointerX;
+    lastPointerX = e.clientX;
+    normalize();
+  });
+
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    strip.classList.remove('is-dragging');
+    if (strip.hasPointerCapture(e.pointerId)) strip.releasePointerCapture(e.pointerId);
+    idle();
+  }
+  strip.addEventListener('pointerup', endDrag);
+  strip.addEventListener('pointercancel', endDrag);
+
+  strip.addEventListener('wheel', idle, { passive: true });
+  strip.addEventListener('touchstart', idle, { passive: true });
+  strip.addEventListener('touchmove', idle, { passive: true });
+  strip.addEventListener('dragstart', function (e) { e.preventDefault(); });
+})();
+</script>
 </body>
 </html>
