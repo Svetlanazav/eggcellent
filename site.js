@@ -32,3 +32,16 @@
     scrollToFeatures('auto');
   }
 })();
+
+// App Store link: point it at the visitor's country store, taken from the
+// browser language (pl-PL -> pl). The plain link in the HTML stays in place
+// whenever this fails: an old browser, no region, or any error at all.
+(function () {
+  try {
+    var cc = (new Intl.Locale(navigator.language).maximize().region || '').toLowerCase();
+    if (!/^[a-z]{2}$/.test(cc)) return;
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-app-store]'), function (link) {
+      link.href = 'https://apps.apple.com/' + cc + '/app/id6789988052';
+    });
+  } catch (e) {}
+})();

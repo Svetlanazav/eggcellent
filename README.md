@@ -12,4 +12,4 @@ Files:
 - `styles.css` — all styling
 - `assets/` — app icon and screenshots
 
-Store links are `href="#"` — put the real App Store / Google Play URLs there.
+The App Store button links to `https://apps.apple.com/app/id6789988052`; `site.js` swaps in the visitor's country store (taken from the browser language). Google Play is marked "Soon" with no link yet.
