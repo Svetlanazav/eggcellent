@@ -33,15 +33,43 @@
   }
 })();
 
-// App Store link: point it at the visitor's country store, taken from the
-// browser language (pl-PL -> pl). The plain link in the HTML stays in place
-// whenever this fails: an old browser, no region, or any error at all.
+// App Store link: campaign tokens for App Store Connect analytics, plus the
+// visitor's country store taken from the browser language (pl-PL -> pl).
+// `?ref=reddit` on the page URL becomes campaign `web-reddit` and is kept for
+// the rest of the visit, so it survives a trip to a sub-page and back. Without
+// a ref the campaign is `landing`. The plain link in the HTML (campaign
+// `landing`, no country) stays in place whenever this fails.
 (function () {
+  var APP_ID = '6789988052';
+  var PROVIDER_TOKEN = '129156858'; // App Store Connect provider token, same for every campaign
+  var REF_KEY = 'eggcellent:ref';
+  var MAX_CAMPAIGN = 30; // App Store Connect limit for a campaign token
+
+  function readRef() {
+    var ref = '';
+    try { ref = new URLSearchParams(window.location.search).get('ref') || ''; } catch (e) {}
+    ref = ref.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '');
+    try {
+      if (ref) sessionStorage.setItem(REF_KEY, ref);
+      else ref = sessionStorage.getItem(REF_KEY) || '';
+    } catch (e) {}
+    return ref;
+  }
+
+  function countryPath() {
+    try {
+      var cc = (new Intl.Locale(navigator.language).maximize().region || '').toLowerCase();
+      return /^[a-z]{2}$/.test(cc) ? cc + '/' : '';
+    } catch (e) { return ''; }
+  }
+
   try {
-    var cc = (new Intl.Locale(navigator.language).maximize().region || '').toLowerCase();
-    if (!/^[a-z]{2}$/.test(cc)) return;
+    var ref = readRef();
+    var campaign = ref ? ('web-' + ref).slice(0, MAX_CAMPAIGN).replace(/[-_]+$/, '') : 'landing';
+    var href = 'https://apps.apple.com/' + countryPath() + 'app/apple-store/id' + APP_ID +
+      '?pt=' + PROVIDER_TOKEN + '&ct=' + encodeURIComponent(campaign) + '&mt=8';
     Array.prototype.forEach.call(document.querySelectorAll('a[data-app-store]'), function (link) {
-      link.href = 'https://apps.apple.com/' + cc + '/app/id6789988052';
+      link.href = href;
     });
   } catch (e) {}
 })();

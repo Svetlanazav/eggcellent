@@ -12,4 +12,4 @@ Files:
 - `styles.css` — all styling
 - `assets/` — app icon and screenshots
 
-The App Store button links to `https://apps.apple.com/app/id6789988052`; `site.js` swaps in the visitor's country store (taken from the browser language). Google Play is marked "Soon" with no link yet.
+The App Store button is an App Store Connect campaign link (`pt=129156858`, campaign `landing`). `site.js` swaps in the visitor's country store (taken from the browser language) and turns `?ref=<name>` on the page URL into campaign `web-<name>` (kept for the visit; 30-character limit), so `…/?ref=reddit` shows up as `web-reddit` in App Store Connect → Analytics → Campaigns. Google Play is marked "Soon" with no link yet.
